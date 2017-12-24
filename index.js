@@ -11,17 +11,17 @@ let main = async () => {
     let lagou = await Sender.LaGou(1, city, searchKey);
     console.log(lagou);
 
-    let zhilian = await Sender.ZhiLian(1, city, searchKey);
-    console.log(zhilian);
+    // let zhilian = await Sender.ZhiLian(1, city, searchKey);
+    // console.log(zhilian);
 
-    let liepin = await Sender.LiePin(1, city, searchKey);
-    console.log(liepin);
+    // let liepin = await Sender.LiePin(1, city, searchKey);
+    // console.log(liepin);
 
-    let qiancheng = await Sender.QianChengWuYou(1, city, searchKey);
-    console.log(qiancheng);
+    // let qiancheng = await Sender.QianChengWuYou(1, city, searchKey);
+    // console.log(qiancheng);
 
-    let boss = await Sender.BossZhiPin(1, city, searchKey);
-    console.log(boss);
+    // let boss = await Sender.BossZhiPin(1, city, searchKey);
+    // console.log(boss);
 };
 
 main();

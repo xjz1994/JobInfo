@@ -7,9 +7,7 @@ let CityType = require("./EnumType").CityType;
 
 module.exports.Sender = class Sender {
     static Request(moth, option) {
-        let func = request;
-        moth == HttpMoth.GET && request.get;
-        moth == HttpMoth.GET && request.post;
+        let func = moth == HttpMoth.GET ? request.get : request.post;
         return new Promise((resolve, reject) => {
             func(option, (err, httpResponse, body) => {
                 if (err) reject(err);
