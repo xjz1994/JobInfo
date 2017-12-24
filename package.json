@@ -1,0 +1,16 @@
+{
+  "name": "jobinfo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "iconv-lite": "^0.4.19",
+    "koa": "^2.4.1",
+    "request": "^2.83.0"
+  }
+}
