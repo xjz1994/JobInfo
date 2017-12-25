@@ -1,6 +1,7 @@
 let WebsiteType = require("./src/EnumType").WebsiteType;
 let CityType = require("./src/EnumType").CityType;
 let Sender = require("./src/Sender").Sender;
+let Parser = require("./src/Parser").Parser;
 let Utils = require("./src/Utils").Utils;
 
 
@@ -8,11 +9,13 @@ let main = async () => {
     let city = CityType.GuangZhou;
     let searchKey = Utils.GetUrlCode(".net");
 
-    let lagou = await Sender.LaGou(1, city, searchKey);
-    console.log(lagou);
+    // let lagouBody = await Sender.LaGou(1, city, searchKey);
+    // let lagouData = Parser.LaGou(lagouBody);
+    // console.log(lagouData);
 
-    // let zhilian = await Sender.ZhiLian(1, city, searchKey);
-    // console.log(zhilian);
+    let zhilianBody = await Sender.ZhiLian(1, city, searchKey);
+    let zhilianData = await Parser.ZhiLian(zhilianBody);
+    //console.log(zhilianData);
 
     // let liepin = await Sender.LiePin(1, city, searchKey);
     // console.log(liepin);

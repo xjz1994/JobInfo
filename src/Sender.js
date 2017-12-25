@@ -83,7 +83,7 @@ module.exports.Sender = class Sender {
     static async BossZhiPin(page, searchCity, searchKey) {
         let city = Utils.GetCityUrlCode(WebsiteType.BossZhiPin, searchCity);
         let option = {
-            url: `http://www.zhipin.com/c${city}/h_101280100/?query=${searchKey}&page=${page}`,
+            url: `http://www.zhipin.com/c${city}/h_${city}/?query=${searchKey}&page=${page}`,
         };
         let result = await this.Request(HttpMoth.GET, option);
         return result;
