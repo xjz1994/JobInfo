@@ -56,6 +56,8 @@ module.exports.Parser = class Parser {
             data.workYear = detailListDom.children[3].children[0].data;
             data.education = detailListDom.children[4].children[0].data;
 
+            data.websiteType = WebsiteType.ZhiLian;
+
             result.push(data);
         }
         return result;
