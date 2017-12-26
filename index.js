@@ -17,11 +17,12 @@ let main = async () => {
     // let zhilianData = await Parser.ZhiLian(zhilianBody);
     // console.log(zhilianData);
 
+    // let qiancheng = await Sender.QianChengWuYou(1, city, searchKey);
+    // let qianChengData = await Parser.QianChengWuYou(qiancheng);
+    // console.log(qianChengData);
+
     // let liepin = await Sender.LiePin(1, city, searchKey);
     // console.log(liepin);
-
-    // let qiancheng = await Sender.QianChengWuYou(1, city, searchKey);
-    // console.log(qiancheng);
 
     // let boss = await Sender.BossZhiPin(1, city, searchKey);
     // console.log(boss);

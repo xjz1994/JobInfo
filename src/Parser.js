@@ -48,8 +48,9 @@ module.exports.Parser = class Parser {
             data.companyShortName = companyDom.children[0].data;
 
             data.salary = htmlparser.DomUtils.getElements({ tag_name: "td", class: "zwyx" }, item)[0].children[0].data;
-            data.city = htmlparser.DomUtils.getElements({ tag_name: "td", class: "gzdd" }, item)[0].children[0].data;
-            data.district = data.city;
+            data.district = data.city = htmlparser.DomUtils.getElements({ tag_name: "td", class: "gzdd" }, item)[0].children[0].data;
+
+            data.formatCreateTime = htmlparser.DomUtils.getElements({ tag_name: "td", class: "gxsj" }, item)[0].children[0].children[0].data;
 
             let detailListDom = htmlparser.DomUtils.getElements({ tag_name: "li", class: "newlist_deatil_two" }, item)[0];
             data.companySize = detailListDom.children[2].children[0].data;
@@ -63,13 +64,35 @@ module.exports.Parser = class Parser {
         return result;
     }
 
-    static async LiePin(data) {
-        let json = {};
+    static async QianChengWuYou(data) {
+        let result = [];
         let dom = await this.ParseDom(data);
-        return json;
+        let resultList = htmlparser.DomUtils.getElements({ tag_name: "div", id: "resultList", class: "dw_table" }, dom);
+        let hotList = htmlparser.DomUtils.getElements({ tag_name: "div", class: "el mk" }, resultList);
+        let normalList = htmlparser.DomUtils.getElements({ tag_name: "div", class: "el" }, resultList);
+        let list = hotList.concat(normalList);
+        for (let i in list) {
+            let item = list[i];
+            let data = {};
+
+            let links = htmlparser.DomUtils.getElements({ tag_name: "a", target: "_blank" }, item);
+            data.href = links[0].attribs.href;
+            data.positionName = links[0].attribs.title;
+
+            data.conpanyHref = links[1].attribs.href;
+            data.companyShortName = links[1].attribs.title;
+
+            data.district = data.city = htmlparser.DomUtils.getElements({ tag_name: "span", class: "t3" }, item)[0].children[0].data;
+            data.salary = htmlparser.DomUtils.getElements({ tag_name: "span", class: "t4" }, item)[0].children[0].data;
+            data.formatCreateTime = htmlparser.DomUtils.getElements({ tag_name: "span", class: "t5" }, item)[0].children[0].data;
+
+            data.websiteType = WebsiteType.QianChengWuYou;
+            result.push(data);
+        }
+        return result;
     }
 
-    static async QianChengWuYou(data) {
+    static async LiePin(data) {
         let json = {};
         let dom = await this.ParseDom(data);
         return json;
