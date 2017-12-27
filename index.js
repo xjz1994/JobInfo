@@ -21,8 +21,9 @@ let main = async () => {
     // let qianChengData = await Parser.QianChengWuYou(qiancheng);
     // console.log(qianChengData);
 
-    // let liepin = await Sender.LiePin(1, city, searchKey);
-    // console.log(liepin);
+    let liepin = await Sender.LiePin(1, city, searchKey);
+    let liepinData = await Parser.LiePin(liepin);
+    console.log(liepinData);
 
     // let boss = await Sender.BossZhiPin(1, city, searchKey);
     // console.log(boss);
