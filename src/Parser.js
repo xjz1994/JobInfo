@@ -1,6 +1,7 @@
 let htmlparser = require("htmlparser");
 let WebsiteType = require("./EnumType").WebsiteType;
 let getElements = htmlparser.DomUtils.getElements;
+let getElement = htmlparser.DomUtils.getElementById;
 
 module.exports.Parser = class Parser {
 
@@ -19,7 +20,10 @@ module.exports.Parser = class Parser {
         let jsonData = JSON.parse(data);
         let result = jsonData.content.positionResult.result;
         for (let i in result) {
-            result[i].websiteType = WebsiteType.LaGou;
+            let item = result[i];
+            item.href = `https://www.lagou.com/jobs/${item.companyId}.html`;
+            item.companyHref = `https://www.lagou.com/gongsi/${item.positionId}.html`;
+            item.websiteType = WebsiteType.LaGou;
         }
         return result;
     }
@@ -45,8 +49,8 @@ module.exports.Parser = class Parser {
             }
 
             let companyDom = getElements({ tag_name: "td", class: "gsmc" }, item)[0];
-            data.conpanyHref = companyDom.children[0].children[0].data;
-            data.companyShortName = companyDom.children[0].data;
+            data.companyShortName = companyDom.children[0].children[0].data;
+            data.companyHref = companyDom.children[0].attribs.href;
 
             data.salary = getElements({ tag_name: "td", class: "zwyx" }, item)[0].children[0].data;
             data.district = data.city = getElements({ tag_name: "td", class: "gzdd" }, item)[0].children[0].data;
@@ -107,7 +111,10 @@ module.exports.Parser = class Parser {
             data.positionName = getElements({ tag_name: "h3" }, jobInfo)[0].attribs.title;
 
             data.salary = getElements({ tag_name: "span", class: "text-warning" }, jobInfo)[0].children[0].data;
-            data.district = getElements({ tag_name: "a", class: "area" }, jobInfo)[0].children[0].data;
+
+            let area = getElements({ tag_name: "a", class: "area" }, jobInfo)[0]
+            area && (data.district = area.children[0].data);
+
             data.formatCreateTime = getElements({ tag_name: "time" }, item)[0].attribs.title;
             data.workYear = getElements({ tag_name: "p", class: "condition clearfix" }, item)[0].children[7].children[0].data;
             data.education = getElements({ tag_name: "span", class: "edu" }, item)[0].children[0].data;
@@ -125,14 +132,49 @@ module.exports.Parser = class Parser {
                     data.positionAdvantage += child.children[0].data + "|";
                 }
             }
+
+            data.websiteType = WebsiteType.LiePin;
             result.push(data);
         }
         return result;
     }
 
     static async BossZhiPin(data) {
-        let json = {};
+        let result = [];
         let dom = await this.ParseDom(data);
-        return json;
+
+        let jobList = getElements({ tag_name: "div", class: "job-list" }, dom);
+        let list = getElements({ tag_name: "li" }, jobList);
+
+        for (let i in list) {
+            let item = list[i];
+            let data = {};
+
+            let nameDom = getElements({ tag_name: "h3", class: "name" }, item);
+            let titleDom = nameDom[0];
+            let href = titleDom.children[0].attribs.href;
+            data.href = `https://www.zhipin.com/${href}`;
+            data.positionName = titleDom.children[0].children[0].data;
+            data.salary = titleDom.children[0].children[1].children[0].data;
+
+            let pDom = getElements({ tag_name: "p" }, item);
+            data.district = pDom[0].children[0].data;
+            data.workYear = pDom[0].children[2].data;
+            data.education = pDom[0].children[4].data;
+
+            data.industryField = pDom[1].children[0].data;
+            data.companySize = pDom[1].children[4].data;
+            data.financeStage = pDom[1].children[2].data;
+
+            let companyHref = nameDom[1].children[0].attribs.href;
+            data.conpanyHref = `https://www.zhipin.com/${companyHref}`;
+            data.companyShortName = nameDom[1].children[0].children[0].data;
+
+            data.formatCreateTime = getElements({ tag_name: "span", class: "time" }, item)[0].children[0].data;
+
+            data.websiteType = WebsiteType.BossZhiPin;
+            result.push(data);
+        }
+        return result;
     }
 }

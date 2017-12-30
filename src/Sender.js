@@ -6,6 +6,7 @@ let WebsiteType = require("./EnumType").WebsiteType;
 let CityType = require("./EnumType").CityType;
 
 module.exports.Sender = class Sender {
+
     static Request(moth, option) {
         let func = moth == HttpMoth.GET ? request.get : request.post;
         return new Promise((resolve, reject) => {
