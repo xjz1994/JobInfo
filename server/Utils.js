@@ -1,5 +1,6 @@
 let WebsiteType = require("./EnumType").WebsiteType;
 let CityType = require("./EnumType").CityType;
+let CityStr = require("./EnumType").CityStr;
 
 module.exports.Utils = class Utils {
 

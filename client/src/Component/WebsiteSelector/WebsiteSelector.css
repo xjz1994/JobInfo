@@ -1,0 +1,11 @@
+.WebsiteSelector {
+	width: 395px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}
+.WebsiteSelector-Top {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E9E9E9;
+}

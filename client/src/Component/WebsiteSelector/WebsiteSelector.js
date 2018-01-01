@@ -1,13 +1,25 @@
 import React from 'react';
 import { Checkbox } from 'antd';
+import './WebsiteSelector.css';
+const WebsiteType = require('../../Config/EnumType').WebsiteType;
+const WebsiteStr = require('../../Config/EnumType').WebsiteStr;
 const CheckboxGroup = Checkbox.Group;
 
 const plainOptions = [
-    { label: '啊', value: 'Apple' },
-    { label: 'Pear', value: 'Pear' },
-    { label: 'Orange', value: 'Orange' },
+    { label: WebsiteStr[WebsiteType.LaGou], value: WebsiteType.LaGou },
+    { label: WebsiteStr[WebsiteType.ZhiLian], value: WebsiteType.ZhiLian },
+    { label: WebsiteStr[WebsiteType.LiePin], value: WebsiteType.LiePin },
+    { label: WebsiteStr[WebsiteType.QianChengWuYou], value: WebsiteType.QianChengWuYou },
+    { label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
 ];
-const defaultCheckedList = ['Apple', 'Pear', 'Orange'];
+
+const defaultCheckedList = [
+    WebsiteType.LaGou,
+    WebsiteType.ZhiLian,
+    WebsiteType.LiePin,
+    WebsiteType.QianChengWuYou,
+    WebsiteType.BossZhiPin
+];
 
 class WebsiteSelector extends React.Component {
     state = {
@@ -17,17 +29,17 @@ class WebsiteSelector extends React.Component {
     };
     render() {
         return (
-            <div>
-                <div style={{ borderBottom: '1px solid #E9E9E9' }}>
-                    <Checkbox
-                        indeterminate={this.state.indeterminate}
-                        onChange={this.onCheckAllChange}
-                        checked={this.state.checkAll}
-                    >
-                        Check all
-                </Checkbox>
+            <div className="WebsiteSelector">
+                <div className="WebsiteSelector-Top">
+                    <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} />
                 </div>
-                <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} />
+                <Checkbox
+                    indeterminate={this.state.indeterminate}
+                    onChange={this.onCheckAllChange}
+                    checked={this.state.checkAll}
+                >
+                    全选
+                    </Checkbox>
             </div>
         );
     }
