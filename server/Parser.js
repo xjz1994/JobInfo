@@ -1,4 +1,5 @@
 let htmlparser = require("htmlparser");
+let iconv = require('iconv-lite');
 let WebsiteType = require("./EnumType").WebsiteType;
 let getElements = htmlparser.DomUtils.getElements;
 let getElement = htmlparser.DomUtils.getElementById;
@@ -71,7 +72,8 @@ module.exports.Parser = class Parser {
 
     static async QianChengWuYou(data) {
         let result = [];
-        let dom = await this.ParseDom(data);
+        let dataStr = iconv.decode(data, 'gbk');
+        let dom = await this.ParseDom(dataStr);
         let resultList = getElements({ tag_name: "div", id: "resultList", class: "dw_table" }, dom);
         let hotList = getElements({ tag_name: "div", class: "el mk" }, resultList);
         let normalList = getElements({ tag_name: "div", class: "el" }, resultList);
@@ -176,5 +178,32 @@ module.exports.Parser = class Parser {
             result.push(data);
         }
         return result;
+    }
+
+    /**
+    * 根据类型，解析相应数据
+    */
+    static async ParseData(data) {
+        switch (data.type) {
+            case WebsiteType.LaGou:
+                return this.LaGou(data.body);
+            case WebsiteType.ZhiLian:
+                return this.ZhiLian(data.body);
+            case WebsiteType.QianChengWuYou:
+                return this.QianChengWuYou(data.body);
+            case WebsiteType.LiePin:
+                return this.LiePin(data.body);
+            case WebsiteType.BossZhiPin:
+                return this.BossZhiPin(data.body);
+        }
+    }
+
+    static async ParseAllData(data) {
+        let res = [];
+        for (let i in data) {
+            let d = await this.ParseData(data[i]);
+            res = res.concat(d);
+        }
+        return res;
     }
 }

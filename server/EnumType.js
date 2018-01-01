@@ -7,8 +7,8 @@ module.exports.WebsiteType = {
     LaGou: 2,
     ZhiLian: 4,
     LiePin: 8,
-    QianChengWuYou: 16,
-    BossZhiPin: 32,
+    QianChengWuYou: 32,
+    BossZhiPin: 64,
 }
 
 module.exports.WebsiteStr = {

@@ -20,4 +20,14 @@ module.exports.Utils = class Utils {
         }
     }
 
+    static ParsePowTwo(type) {
+        let res = [];
+        let bit = type.toString(2).split("");
+        for (let i = bit.length - 1; i >= 0; i--) {
+            if (bit[i] == 1) {
+                res.push(Math.pow(2, bit.length - i - 1));
+            }
+        }
+        return res;
+    }
 }
