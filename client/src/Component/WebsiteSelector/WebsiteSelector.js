@@ -1,9 +1,9 @@
 import React from 'react';
-import { Checkbox } from 'antd';
 import './WebsiteSelector.css';
+import { Checkbox } from 'antd';
+const CheckboxGroup = Checkbox.Group;
 const WebsiteType = require('../../Config/EnumType').WebsiteType;
 const WebsiteStr = require('../../Config/EnumType').WebsiteStr;
-const CheckboxGroup = Checkbox.Group;
 
 const plainOptions = [
     { label: WebsiteStr[WebsiteType.LaGou], value: WebsiteType.LaGou },
@@ -39,7 +39,7 @@ class WebsiteSelector extends React.Component {
                     checked={this.state.checkAll}
                 >
                     全选
-                    </Checkbox>
+                </Checkbox>
             </div>
         );
     }

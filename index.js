@@ -1,9 +1,7 @@
-let WebsiteType = require("./server/EnumType").WebsiteType;
 let CityType = require("./server/EnumType").CityType;
 let Sender = require("./server/Sender").Sender;
 let Parser = require("./server/Parser").Parser;
 let Utils = require("./server/Utils").Utils;
-let fs = require("fs");
 
 const Koa = require('koa');
 const serve = require('koa-static');

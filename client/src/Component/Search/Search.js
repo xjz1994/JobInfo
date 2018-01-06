@@ -1,7 +1,8 @@
 import React from 'react';
-import { Input } from 'antd';
 import './Search.css';
+import { Input } from 'antd';
 const Search = Input.Search;
+
 class SearchArea extends Input.Search {
     render() {
         return (
