@@ -7,21 +7,24 @@ import DataTable from './Component/DataTable/DataTable';
 
 const CityType = require('./Public/EnumType').CityType;
 const WebsiteType = require('./Public/EnumType').WebsiteType;
+const Utils = require('./Public/Utils').Utils;
 
 class App extends Component {
 
   state = {
+    page: 1,
     cityType: CityType.GuangZhou,
     searchKey: "",
     websiteType: WebsiteType.LaGou | WebsiteType.QianChengWuYou | WebsiteType.ZhiLian | WebsiteType.BossZhiPin | WebsiteType.LiePin,
-    jobData: [{ "companyId": 243689, "positionName": ".NET开发工程师", "workYear": "1-3年", "education": "本科", "jobNature": "全职", "financeStage": "不需要融资", "companyLogo": "i/image/M00/5A/AF/CgpFT1mNDfyAL_zFAAApXtSzfKI79.jpeg", "industryField": "企业服务,信息安全", "city": "广州", "salary": "6k-12k", "positionId": 3842294, "positionAdvantage": "技术大牛,内部培训,丰厚奖金,优秀团队", "companyShortName": "利通科技", "district": "萝岗区", "createTime": "2018-01-05 15:00:05", "score": 0, "approve": 1, "positionLables": ["中级", "软件开发"], "industryLables": [], "publisherId": 8674302, "companyLabelList": ["年底双薪", "节日礼物", "技能培训", "绩效奖金"], "companySize": "150-500人", "businessZones": null, "longitude": "113.435587", "latitude": "23.168658", "formatCreateTime": "1天前发布", "imState": "today", "lastLogin": 1515138381000, "explain": null, "plus": null, "pcShow": 0, "appShow": 0, "deliver": 0, "gradeDescription": null, "promotionScoreExplain": null, "firstType": "开发/测试/运维类", "secondType": "软件开发", "isSchoolJob": 0, "subwayline": null, "stationname": null, "linestaion": null, "companyFullName": "广东利通科技投资有限公司", "adWord": 0, "href": "https://www.lagou.com/jobs/243689.html", "companyHref": "https://www.lagou.com/gongsi/3842294.html", "websiteType": 2 }]
+    jobData: []
   };
 
   async onSearch() {
-    let address = `https://127.0.0.1/api/search?cityType=${this.state.cityType}&searchKey=${this.state.searchKey}&websiteType=${this.state.websiteType}`;
-    console.log(address);
-    // let res = await axios.get(address);
-    // console.log(res);
+    let state = this.state;
+    let address = Utils.GetAPIAddress('/api/search', `page=${state.page}&cityType=${state.cityType}&searchKey=${state.searchKey}&websiteType=${state.websiteType}`);
+    await axios.get(address).then((res) => {
+      this.setState({ jobData: res.data });
+    });
   }
 
   onSearchKeyChange(e) {

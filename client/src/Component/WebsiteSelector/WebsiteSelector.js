@@ -11,7 +11,7 @@ const plainOptions = [
     { label: WebsiteStr[WebsiteType.ZhiLian], value: WebsiteType.ZhiLian },
     { label: WebsiteStr[WebsiteType.LiePin], value: WebsiteType.LiePin },
     { label: WebsiteStr[WebsiteType.QianChengWuYou], value: WebsiteType.QianChengWuYou },
-    { label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
+    //{ label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
 ];
 
 class WebsiteSelector extends React.Component {
@@ -39,12 +39,12 @@ class WebsiteSelector extends React.Component {
 
     onChange = (checkedList) => {
         this.setState({
-            checkedList,
+            checkedList: checkedList,
             indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
             checkAll: checkedList.length === plainOptions.length,
         });
 
-        this.props.onWebsiteChange(Utils.CompilePowTwo(this.state.checkedList));
+        this.props.onWebsiteChange(Utils.CompilePowTwo(checkedList));
     }
 
     onCheckAllChange = (e) => {

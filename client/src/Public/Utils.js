@@ -3,6 +3,10 @@ let CityStr = require("./EnumType").CityStr;
 
 module.exports.Utils = class Utils {
 
+    static GetAPIAddress(apiStr, paramStr) {
+        return "http://localhost:3001" + apiStr + "?" + paramStr;
+    }
+
     static GetUrlCode(str) {
         return encodeURI(str);
     }
