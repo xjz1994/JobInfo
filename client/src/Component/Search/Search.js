@@ -9,7 +9,8 @@ class SearchArea extends Input.Search {
             <div className="Search">
                 <Search
                     placeholder="请输入职位关键字"
-                    onSearch={value => console.log(value)}
+                    onSearch={this.props.onSearch}
+                    onChange={this.props.onSearchKeyChange}
                     enterButton
                     size="large"
                 />

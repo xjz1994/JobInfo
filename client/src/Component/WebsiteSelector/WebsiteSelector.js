@@ -2,8 +2,9 @@ import React from 'react';
 import './WebsiteSelector.css';
 import { Checkbox } from 'antd';
 const CheckboxGroup = Checkbox.Group;
-const WebsiteType = require('../../Config/EnumType').WebsiteType;
-const WebsiteStr = require('../../Config/EnumType').WebsiteStr;
+const WebsiteType = require('../../Public/EnumType').WebsiteType;
+const WebsiteStr = require('../../Public/EnumType').WebsiteStr;
+const Utils = require('../../Public/Utils').Utils;
 
 const plainOptions = [
     { label: WebsiteStr[WebsiteType.LaGou], value: WebsiteType.LaGou },
@@ -13,17 +14,9 @@ const plainOptions = [
     { label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
 ];
 
-const defaultCheckedList = [
-    WebsiteType.LaGou,
-    WebsiteType.ZhiLian,
-    WebsiteType.LiePin,
-    WebsiteType.QianChengWuYou,
-    WebsiteType.BossZhiPin
-];
-
 class WebsiteSelector extends React.Component {
     state = {
-        checkedList: defaultCheckedList,
+        checkedList: Utils.ParsePowTwo(this.props.value),
         indeterminate: false,
         checkAll: true,
     };
@@ -43,22 +36,29 @@ class WebsiteSelector extends React.Component {
             </div>
         );
     }
+
     onChange = (checkedList) => {
         this.setState({
             checkedList,
             indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
             checkAll: checkedList.length === plainOptions.length,
         });
+
+        this.props.onWebsiteChange(Utils.CompilePowTwo(this.state.checkedList));
     }
+
     onCheckAllChange = (e) => {
         let all = [];
         plainOptions.map((ele) => { return all.push(ele.value) });
+        let list = e.target.checked ? all : [];
 
         this.setState({
-            checkedList: e.target.checked ? all : [],
+            checkedList: list,
             indeterminate: false,
             checkAll: e.target.checked,
         });
+
+        this.props.onWebsiteChange(Utils.CompilePowTwo(list));
     }
 }
 
