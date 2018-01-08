@@ -22,8 +22,8 @@ module.exports.Parser = class Parser {
         let result = jsonData.content.positionResult.result;
         for (let i in result) {
             let item = result[i];
-            item.href = `https://www.lagou.com/jobs/${item.companyId}.html`;
-            item.companyHref = `https://www.lagou.com/gongsi/${item.positionId}.html`;
+            item.href = `https://www.lagou.com/jobs/${item.positionId}.html`;
+            item.companyHref = `https://www.lagou.com/gongsi/${item.companyId}.html`;
             item.websiteType = WebsiteType.LaGou;
         }
         return result;
@@ -86,7 +86,7 @@ module.exports.Parser = class Parser {
             data.href = links[0].attribs.href;
             data.positionName = links[0].attribs.title;
 
-            data.conpanyHref = links[1].attribs.href;
+            data.companyHref = links[1].attribs.href;
             data.companyShortName = links[1].attribs.title;
 
             data.district = data.city = getElements({ tag_name: "span", class: "t3" }, item)[0].children[0].data;
@@ -122,7 +122,7 @@ module.exports.Parser = class Parser {
             data.education = getElements({ tag_name: "span", class: "edu" }, item)[0].children[0].data;
 
             let companyInfo = getElements({ tag_name: "div", class: "company-info nohover" }, list[i])[0];
-            data.conpanyHref = getElements({ tag_name: "p", class: "company-name" }, companyInfo)[0].children[1].attribs.href;
+            data.companyHref = getElements({ tag_name: "p", class: "company-name" }, companyInfo)[0].children[1].attribs.href;
             data.companyShortName = getElements({ tag_name: "p", class: "company-name" }, companyInfo)[0].children[1].attribs.title;
 
             data.industryField = getElements({ tag_name: "p", class: "field-financing" }, companyInfo)[0].children[1].children[1].children[0].data
@@ -160,16 +160,16 @@ module.exports.Parser = class Parser {
             data.salary = titleDom.children[0].children[1].children[0].data;
 
             let pDom = getElements({ tag_name: "p" }, item);
-            data.district = pDom[0].children[0].data;
-            data.workYear = pDom[0].children[2].data;
-            data.education = pDom[0].children[4].data;
+            data.district = pDom[0].children[0] && pDom[0].children[0].data;
+            data.workYear = pDom[0].children[2] && pDom[0].children[2].data;
+            data.education = pDom[0].children[4] && pDom[0].children[4].data;
 
-            data.industryField = pDom[1].children[0].data;
-            data.companySize = pDom[1].children[4].data;
-            data.financeStage = pDom[1].children[2].data;
+            data.industryField = pDom[1].children[0] && pDom[1].children[0].data;
+            data.companySize = pDom[1].children[4] && pDom[1].children[4].data;
+            data.financeStage = pDom[1].children[2] && pDom[1].children[2].data;
 
             let companyHref = nameDom[1].children[0].attribs.href;
-            data.conpanyHref = `https://www.zhipin.com/${companyHref}`;
+            data.companyHref = `https://www.zhipin.com/${companyHref}`;
             data.companyShortName = nameDom[1].children[0].children[0].data;
 
             data.formatCreateTime = getElements({ tag_name: "span", class: "time" }, item)[0].children[0].data;

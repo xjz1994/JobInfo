@@ -11,7 +11,7 @@ const plainOptions = [
     { label: WebsiteStr[WebsiteType.ZhiLian], value: WebsiteType.ZhiLian },
     { label: WebsiteStr[WebsiteType.LiePin], value: WebsiteType.LiePin },
     { label: WebsiteStr[WebsiteType.QianChengWuYou], value: WebsiteType.QianChengWuYou },
-    //{ label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
+    { label: WebsiteStr[WebsiteType.BossZhiPin], value: WebsiteType.BossZhiPin }
 ];
 
 class WebsiteSelector extends React.Component {
