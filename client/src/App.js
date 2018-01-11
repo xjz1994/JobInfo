@@ -19,13 +19,21 @@ class App extends Component {
     jobData: []
   };
 
-  async onSearch() {
+  getAddress(page = this.state.page) {
     let state = this.state;
-    let address = Utils.GetAPIAddress('/api/search', `page=${state.page}&cityType=${state.cityType}&searchKey=${state.searchKey}&websiteType=${state.websiteType}`);
-    await axios.get(address).then((res) => {
-      let newData = this.state.jobData.concat(res.data);
-      this.setState({ jobData: newData });
-    });
+    let address = Utils.GetAPIAddress('/api/search', `page=${page}&cityType=${state.cityType}&searchKey=${state.searchKey}&websiteType=${state.websiteType}`);
+    return address;
+  }
+
+  async onSearch() {
+    let res = await axios.get(this.getAddress());
+    this.setState({ jobData: res.data });
+  }
+
+  async onLastPage() {
+    let res = await axios.get(this.getAddress(this.state.page + 1));
+    let newData = this.state.jobData.concat(res.data);
+    this.setState({ jobData: newData, page: this.state.page + 1 });
   }
 
   onSearchKeyChange(e) {
@@ -38,12 +46,6 @@ class App extends Component {
 
   onWebsiteChange(type) {
     this.setState({ websiteType: type });
-  }
-
-  onLastPage() {
-    this.setState({ page: this.state.page + 1 }, () => {
-      this.onSearch();
-    });
   }
 
   render() {
