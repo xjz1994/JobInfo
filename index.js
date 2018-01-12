@@ -34,12 +34,26 @@ app.listen(3001);
 
 
 
-let main = async () => {
-    let page = 1;
-    let city = CityType.GuangZhou;
-    let searchKey = Utils.GetUrlCode(".net");
-    let websiteType = 2 + 4 + 8 + 16 + 32;
-    let res = await Sender.GetReqPromiseAll(page, city, searchKey, websiteType);
-    let data = await Parser.ParseAllData(res);
-}
-main();
+// let main = async () => {
+//     let page = 1;
+//     let city = CityType.GuangZhou;
+//     let searchKey = Utils.GetUrlCode(".net");
+//     let websiteType = 2 + 4 + 8 + 16 + 32;
+//     let res = await Sender.GetReqPromiseAll(page, city, searchKey, websiteType);
+//     let data = await Parser.ParseAllData(res);
+// }
+// main();
+
+// //cheerio demo
+// let $ = cheerio.load(body);
+// let tbody = $('tbody,.rowlink');
+// let trs = $('tr', tbody);
+// for (let i = 0; i < trs.length; i++) {
+//     let curData = {};
+//     let item = trs[i];
+//     curData.language = $('td,.table-language', item);
+//     curData.star = $('td,.table-change', item).text();
+//     curData.href = $('a', item).data();
+//     data.push(curData);
+// }
+// console.log(data);
