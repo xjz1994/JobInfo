@@ -30,4 +30,8 @@ module.exports.Utils = class Utils {
         }
         return res;
     }
+
+    static ReplaceSpace(str) {
+        return str.replace(/\s+/g, "|");
+    }
 }
