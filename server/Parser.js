@@ -43,10 +43,10 @@ module.exports.Parser = class Parser {
             curData.formatCreateTime = $('td[class=gxsj]', item).text();
 
             ///从详细描述中匹配出经验和学历
-            let detailStr = $('li[class=newlist_deatil_two]', item).text()
-            let yearMatch = detailStr.match(/经验：(.*?)学历/);
+            let detailStr = $('li[class=newlist_deatil_two]', item).text();
+            let yearMatch = detailStr.match(/经验：(.*?)(学|职)/);
             curData.workYear = yearMatch ? yearMatch[1] : "";
-            let eduMatch = detailStr.match(/学历：(.*?)职位/);
+            let eduMatch = detailStr.match(/学历：(.*?)(职)/);
             curData.education = eduMatch ? eduMatch[1] : "";
 
             curData.websiteType = WebsiteType.ZhiLian;

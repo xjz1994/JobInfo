@@ -60,7 +60,9 @@ class DataTable extends React.Component {
 
     state = {
         pagination: {
-            pageSize: 30,
+            pageSize: 20,
+            showQuickJumper: true,
+            showSizeChanger: true,
             onChange: this.onPageChange.bind(this)
         }
     }

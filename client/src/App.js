@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { message } from 'antd';
 import axios from 'axios';
 import Search from './Component/Search/Search';
 import WebsiteSelector from './Component/WebsiteSelector/WebsiteSelector';
@@ -26,14 +27,22 @@ class App extends Component {
   }
 
   async onSearch() {
+    if (this.state.searchKey === "") {
+      message.info('请输入搜索关键字');
+      return;
+    }
+    let hide = message.loading('正在获取数据', 0);
     let res = await axios.get(this.getAddress());
     this.setState({ jobData: res.data });
+    hide();
   }
 
   async onLastPage() {
+    let hide = message.loading('正在获取数据', 0);
     let res = await axios.get(this.getAddress(this.state.page + 1));
     let newData = this.state.jobData.concat(res.data);
     this.setState({ jobData: newData, page: this.state.page + 1 });
+    hide();
   }
 
   onSearchKeyChange(e) {

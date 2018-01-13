@@ -19,7 +19,7 @@ router.get('/api/search', async (ctx, next) => {
     let websiteType = ctx.query.websiteType;
 
     let res = await Sender.GetReqPromiseAll(page, city, searchKey, websiteType);
-    let data = await Parser.ParseAllData(res);
+    let data = Parser.ParseAllData(res);
     ctx.body = data;
     next();
 });
