@@ -11,14 +11,14 @@ module.exports.Parser = class Parser {
         for (let i in result) {
             console.log("lagou:", i);
             let item = result[i];
-            curData.href = `https://www.lagou.com/jobs/${item.positionId}.html`;
-            curData.companyHref = `https://www.lagou.com/gongsi/${item.companyId}.html`;
-            curData.websiteType = WebsiteType.LaGou;
+            item.href = `https://www.lagou.com/jobs/${item.positionId}.html`;
+            item.companyHref = `https://www.lagou.com/gongsi/${item.companyId}.html`;
+            item.websiteType = WebsiteType.LaGou;
         }
         return result;
     }
 
-    static async ZhiLian(data) {
+    static ZhiLian(data) {
         let result = [];
         let $ = cheerio.load(data);
         let tbodys = $('table[class=newlist]', $('div[id=newlist_list_content_table]'));
@@ -55,7 +55,7 @@ module.exports.Parser = class Parser {
         return result;
     }
 
-    static async QianChengWuYou(data) {
+    static QianChengWuYou(data) {
         let result = [];
         data = iconv.decode(data, 'gbk');
         let $ = cheerio.load(data);
@@ -86,84 +86,69 @@ module.exports.Parser = class Parser {
         return result;
     }
 
-    static async LiePin(data) {
+    static LiePin(data) {
         let result = [];
-        // let dom = await this.ParseDom(data);
+        let $ = cheerio.load(data);
+        let list = $('.sojob-item-main.clearfix', $('ul[class=sojob-list]'));
+        for (let i = 0; i < list.length; i++) {
+            console.log("liepin:", i);
+            let curData = {};
+            let item = list[i];
 
-        // let list = getElements({ tag_name: "div", class: "sojob-item-main clearfix" }, dom);
-        // for (let i in list) {
-        //     let item = list[i];
-        //     let data = {};
+            //职位
+            let positionDom = $('a', $('h3', item));
+            curData.positionName = positionDom.text().trim();
+            curData.href = positionDom.attr().href;
 
-        //     let jobInfo = getElements({ tag_name: "div", class: "job-info" }, list[i])[0];
-        //     data.href = getElements({ tag_name: "a" }, jobInfo)[0].attribs.href;
-        //     data.positionName = getElements({ tag_name: "h3" }, jobInfo)[0].attribs.title;
+            //公司
+            let companyDom = $('a', $('p[class=company-name]', item));
+            curData.companyShortName = companyDom.attr().title;
+            curData.companyHref = companyDom.attr().href;
 
-        //     data.salary = getElements({ tag_name: "span", class: "text-warning" }, jobInfo)[0].children[0].data;
+            //薪酬、地区、学历、年限
+            let infoArr = $('.condition.clearfix', item).attr().title.split("_");
+            curData.salary = infoArr[0];
+            curData.district = infoArr[1];
+            curData.education = infoArr[2];
+            curData.workYear = infoArr[3];
 
-        //     let area = getElements({ tag_name: "a", class: "area" }, jobInfo)[0]
-        //     area && (data.district = area.children[0].data);
-
-        //     data.formatCreateTime = getElements({ tag_name: "time" }, item)[0].attribs.title;
-        //     data.workYear = getElements({ tag_name: "p", class: "condition clearfix" }, item)[0].children[7].children[0].data;
-        //     data.education = getElements({ tag_name: "span", class: "edu" }, item)[0].children[0].data;
-
-        //     let companyInfo = getElements({ tag_name: "div", class: "company-info nohover" }, list[i])[0];
-        //     data.companyHref = getElements({ tag_name: "p", class: "company-name" }, companyInfo)[0].children[1].attribs.href;
-        //     data.companyShortName = getElements({ tag_name: "p", class: "company-name" }, companyInfo)[0].children[1].attribs.title;
-
-        //     data.industryField = getElements({ tag_name: "p", class: "field-financing" }, companyInfo)[0].children[1].children[1].children[0].data
-        //     data.positionAdvantage = "|";
-        //     let adv = getElements({ tag_name: "p", class: "temptation clearfix" }, companyInfo)[0];
-        //     for (let i in adv.children) {
-        //         let child = adv.children[i];
-        //         if (child.children) {
-        //             data.positionAdvantage += child.children[0].data + "|";
-        //         }
-        //     }
-
-        //     data.websiteType = WebsiteType.LiePin;
-        //     result.push(data);
-        // }
+            curData.websiteType = WebsiteType.LiePin;
+            result.push(curData);
+        }
         return result;
     }
 
-    static async BossZhiPin(data) {
+    static BossZhiPin(data) {
         let result = [];
-        // let dom = await this.ParseDom(data);
+        let $ = cheerio.load(data);
+        let list = $('li', $('ul', $('div[class=job-list]')));
+        for (let i = 0; i < list.length; i++) {
+            console.log("boss:", i);
+            let curData = {};
+            let item = list[i];
 
-        // let jobList = getElements({ tag_name: "div", class: "job-list" }, dom);
-        // let list = getElements({ tag_name: "li" }, jobList);
+            //职位
+            let positionDom = $('a', $('div[class=info-primary]', item));
+            curData.positionName = positionDom.text();
+            curData.href = `http://www.zhipin.com/${positionDom.attr().href}`;
 
-        // for (let i in list) {
-        //     let item = list[i];
-        //     let data = {};
+            //公司
+            let companyDom = $('a', $('div[class=info-company]', item));
+            curData.companyShortName = companyDom.text();
+            curData.companyHref = `http://www.zhipin.com/${companyDom.attr().href}`;
 
-        //     let nameDom = getElements({ tag_name: "h3", class: "name" }, item);
-        //     let titleDom = nameDom[0];
-        //     let href = titleDom.children[0].attribs.href;
-        //     data.href = `https://www.zhipin.com/${href}`;
-        //     data.positionName = titleDom.children[0].children[0].data;
-        //     data.salary = titleDom.children[0].children[1].children[0].data;
+            //薪酬
+            curData.salary = $('span[class=red]', item).text();
 
-        //     let pDom = getElements({ tag_name: "p" }, item);
-        //     data.district = pDom[0].children[0] && pDom[0].children[0].data;
-        //     data.workYear = pDom[0].children[2] && pDom[0].children[2].data;
-        //     data.education = pDom[0].children[4] && pDom[0].children[4].data;
+            //地区、学历、年限
+            let primayInfo = $('p', $('div[class=info-primary]', item)).contents()
+            curData.district = primayInfo[0].data;
+            curData.education = primayInfo[2].data;
+            curData.workYear = primayInfo[4].data;
 
-        //     data.industryField = pDom[1].children[0] && pDom[1].children[0].data;
-        //     data.companySize = pDom[1].children[4] && pDom[1].children[4].data;
-        //     data.financeStage = pDom[1].children[2] && pDom[1].children[2].data;
-
-        //     let companyHref = nameDom[1].children[0].attribs.href;
-        //     data.companyHref = `https://www.zhipin.com/${companyHref}`;
-        //     data.companyShortName = nameDom[1].children[0].children[0].data;
-
-        //     data.formatCreateTime = getElements({ tag_name: "span", class: "time" }, item)[0].children[0].data;
-
-        //     data.websiteType = WebsiteType.BossZhiPin;
-        //     result.push(data);
-        // }
+            curData.websiteType = WebsiteType.BossZhiPin;
+            result.push(curData);
+        }
         return result;
     }
 
