@@ -1,7 +1,7 @@
 let cheerio = require('cheerio');
 let iconv = require('iconv-lite');
-let WebsiteType = require("./EnumType").WebsiteType;
-let Utils = require("./Utils").Utils;
+let WebsiteType = require("../Public/EnumType").WebsiteType;
+let Utils = require("../Public/Utils").Utils;
 
 module.exports.Parser = class Parser {
 

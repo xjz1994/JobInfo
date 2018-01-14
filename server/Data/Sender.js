@@ -1,8 +1,8 @@
 let request = require('request');
-let Utils = require("./Utils").Utils;
-let HttpMoth = require("./EnumType").HttpMoth;
-let WebsiteType = require("./EnumType").WebsiteType;
-let CityType = require("./EnumType").CityType;
+let HttpMoth = require("../Public/EnumType").HttpMoth;
+let WebsiteType = require("../Public/EnumType").WebsiteType;
+let CityType = require("../Public/EnumType").CityType;
+let Utils = require("../Public/Utils").Utils;
 
 module.exports.Sender = class Sender {
 
