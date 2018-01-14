@@ -63,7 +63,7 @@ class App extends Component {
         <Search onSearch={this.onSearch.bind(this)} onSearchKeyChange={this.onSearchKeyChange.bind(this)} />
         <CitySelector value={this.state.cityType} onCityChange={this.onCityChange.bind(this)} />
         <WebsiteSelector value={this.state.websiteType} onWebsiteChange={this.onWebsiteChange.bind(this)} />
-        <DataTable value={this.state.jobData} onLastPage={this.onLastPage.bind(this)} />
+        <DataTable jobData={this.state.jobData} onLastPage={this.onLastPage.bind(this)} />
       </div>
     );
   }

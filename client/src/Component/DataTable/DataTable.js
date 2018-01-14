@@ -60,15 +60,14 @@ class DataTable extends React.Component {
 
     state = {
         pagination: {
-            pageSize: 20,
-            showQuickJumper: true,
             showSizeChanger: true,
-            onChange: this.onPageChange.bind(this)
+            onChange: this.onPageChange.bind(this),
+            onShowSizeChange: this.onPageChange.bind(this)
         }
     }
 
-    onPageChange(pageNum) {
-        if (this.props.value.length / pageNum <= this.state.pagination.pageSize) {
+    onPageChange(pageNum, total) {
+        if (pageNum * total >= this.props.jobData.length) {
             this.props.onLastPage();
         }
     }
@@ -84,7 +83,7 @@ class DataTable extends React.Component {
     render() {
         return (
             <div className="DataTable">
-                <Table {...this.state} columns={this.columns} dataSource={this.props.value} />
+                <Table {...this.state} columns={this.columns} dataSource={this.props.jobData} ref={this.onchange} />
             </div>
         );
     }
