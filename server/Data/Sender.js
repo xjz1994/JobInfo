@@ -106,9 +106,9 @@ module.exports.Sender = class Sender {
     /**
      * 解析类型，获取Promise.all
      */
-    static GetReqPromiseAll(page, searchCity, searchKey, type) {
+    static GetReqPromiseAll(page, searchCity, searchKey, websiteType) {
         let promiseArr = [];
-        let typeArr = Utils.ParsePowTwo(type);
+        let typeArr = Utils.ParsePowTwo(websiteType);
         for (let i in typeArr) {
             promiseArr.push(this.GetReqPromise(page, searchCity, searchKey, typeArr[i]));
         }

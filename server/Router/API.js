@@ -24,13 +24,15 @@ module.exports.API = class API {
         let searchKey = ctx.query.searchKey;
         let websiteType = ctx.query.websiteType;
 
+        let typeArr = Utils.ParsePowTwo(websiteType);
         let res = await Sender.GetReqPromiseAll(page, cityType, searchKey, websiteType);
         let data = Parser.ParseAllData(res);
         ctx.body = data;
+
         next();
     }
 
     static async JobDetail(ctx, next) { }
 
-    static CompanyDetail(ctx, next) { }
+    static async CompanyDetail(ctx, next) { }
 }

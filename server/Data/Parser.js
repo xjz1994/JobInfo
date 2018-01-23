@@ -158,22 +158,22 @@ module.exports.Parser = class Parser {
     static ParseData(data) {
         switch (data.type) {
             case WebsiteType.LaGou:
-                return this.LaGou(data.body);
+                return Parser.LaGou(data.body);
             case WebsiteType.ZhiLian:
-                return this.ZhiLian(data.body);
+                return Parser.ZhiLian(data.body);
             case WebsiteType.QianChengWuYou:
-                return this.QianChengWuYou(data.body);
+                return Parser.QianChengWuYou(data.body);
             case WebsiteType.LiePin:
-                return this.LiePin(data.body);
+                return Parser.LiePin(data.body);
             case WebsiteType.BossZhiPin:
-                return this.BossZhiPin(data.body);
+                return Parser.BossZhiPin(data.body);
         }
     }
 
     static ParseAllData(data) {
         let res = [];
         for (let i in data) {
-            let d = this.ParseData(data[i]);
+            let d = Parser.ParseData(data[i]);
             res = res.concat(d);
         }
         return res;
