@@ -31,7 +31,22 @@ module.exports.Utils = class Utils {
         return res;
     }
 
-    static ReplaceSpace(str) {
-        return str.replace(/\s+/g, "|");
+    /**
+     * 获取当前时间戳
+     */
+    static GetUnixTimestamp() {
+        return Math.round(new Date().getTime() / 1000);
     }
+
+    /**
+     * 传入时间戳，获取当天零点的时间戳
+     */
+    static getZerohour(time) {
+        var date = new Date(time * 1000);
+        date.setSeconds(0);
+        date.setMinutes(0);
+        date.setHours(0);
+        return Math.ceil(date.getTime() / 1000);
+    }
+
 }

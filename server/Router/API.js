@@ -27,8 +27,8 @@ module.exports.API = class API {
         let typeArr = Utils.ParsePowTwo(websiteType);
         let res = await Sender.GetReqPromiseAll(page, cityType, searchKey, websiteType);
         let data = Parser.ParseAllData(res);
-        ctx.body = data;
 
+        ctx.body = data;
         next();
     }
 
