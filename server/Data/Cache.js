@@ -14,16 +14,14 @@ class Cache {
         let lastCacheTime = Cache.getLastCacheTime();
         let cacheData = Cache.CacheData[lastCacheTime];
         if (!cacheData) {
-            Cache.CacheData[lastCacheTime] = {};
+            Cache.CacheData[lastCacheTime] = cacheData = {};            
         }
 
         let searchKeyData = cacheData[searchKey];
         if (!searchKeyData) {
-            cacheData[searchKey] = {};
+            cacheData[searchKey] = searchKeyData = {};
         }
         searchKeyData[`${cityType}_${websiteType}_${page}`] = data;
-
-        Cache.clear();
     }
 
     static get(page, cityType, searchKey, websiteType) {

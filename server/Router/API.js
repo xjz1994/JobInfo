@@ -1,5 +1,7 @@
+let Cache = require("../Data/Cache").Cache;
 let Sender = require("../Data/Sender").Sender;
 let Parser = require("../Data/Parser").Parser;
+let Utils = require("../Public/Utils").Utils;
 
 module.exports.API = class API {
 
@@ -24,11 +26,28 @@ module.exports.API = class API {
         let searchKey = ctx.query.searchKey;
         let websiteType = ctx.query.websiteType;
 
-        let typeArr = Utils.ParsePowTwo(websiteType);
-        let res = await Sender.GetReqPromiseAll(page, cityType, searchKey, websiteType);
-        let data = Parser.ParseAllData(res);
+        Cache.clear();
 
-        ctx.body = data;
+        let typeArr = Utils.ParsePowTwo(websiteType);
+
+        let cacheData = [];
+        for(let i in typeArr){
+            let curType = typeArr[i];
+            let d = Cache.get(page, cityType, searchKey, curType);
+            if(d){
+                cacheData = cacheData.concat(d);
+                websiteType -= curType;
+            }            
+        }
+
+        let res = await Sender.GetReqPromiseAll(page, cityType, searchKey, websiteType);
+        let newData = Parser.ParseAllData(res);
+        for(let i in newData){
+            Cache.set(page, cityType, searchKey, i, newData[i]);
+            cacheData = cacheData.concat(newData[i]);
+        }        
+
+        ctx.body = cacheData;
         next();
     }
 

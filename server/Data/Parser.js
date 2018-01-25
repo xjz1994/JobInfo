@@ -171,10 +171,10 @@ module.exports.Parser = class Parser {
     }
 
     static ParseAllData(data) {
-        let res = [];
+        let res = {};
         for (let i in data) {
             let d = Parser.ParseData(data[i]);
-            res = res.concat(d);
+            res[data[i].type] = d;            
         }
         return res;
     }
